@@ -6,6 +6,7 @@ import ListItem from "../components/lists/ListItem";
 import ListItemSeperator from "../components/lists/ListItemSeperator";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import useAuth from "../auth/useAuth";
 
 const menuItems = [
   {
@@ -14,6 +15,7 @@ const menuItems = [
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
     },
+    targetScreen: 'Listings' //MyListingScreen not done.
   },
   {
     title: "My Messages",
@@ -21,16 +23,19 @@ const menuItems = [
       name: "email",
       backgroundColor: colors.secondary,
     },
+    targetScreen: 'Messages',
   },
 ];
 
-function AccountScreen(props) {
+function AccountScreen({navigation}) {
+  const {user, logOut} = useAuth();
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title="Akash Dey"
-          subTitle="akashdey742@gmail.com"
+          title={user.name}
+          subTitle={user.email}
           image={require("../assets/Akash.jpg")}
         />
       </View>
@@ -48,6 +53,7 @@ function AccountScreen(props) {
                   backgroundColor={item.icon.backgroundColor}
                 />
               }
+              onPress={() => navigation.navigate(item.targetScreen)}
             />
           )}
         />
@@ -55,6 +61,7 @@ function AccountScreen(props) {
       <ListItem
         title="Log Out"
         IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        onPress={() => logOut()}
       />
     </Screen>
   );

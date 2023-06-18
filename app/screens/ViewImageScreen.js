@@ -3,13 +3,17 @@ import { Image, StyleSheet, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
+import listings from "../api/listings";
 
-function ViewImageScreen(props) {
+function ViewImageScreen({ navigation, route }) {
+  const { imageUrl } = route.params;
+
   return (
     <View style={styles.container}>
       <View style={styles.closeButton}>
         <MaterialCommunityIcons name="close" size={35} color="white" />
       </View>
+
       <View style={styles.deleteButton}>
         <MaterialCommunityIcons
           name="trash-can-outline"
@@ -20,7 +24,7 @@ function ViewImageScreen(props) {
       <Image
         resizeMode="contain"
         style={styles.image}
-        source={require("../assets/chair.jpg")}
+        source={{ uri: imageUrl }}
       />
     </View>
   );

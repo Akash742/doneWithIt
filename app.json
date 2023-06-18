@@ -7,7 +7,7 @@
     "icon": "./app/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/TheTrendsaholicLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -28,6 +28,9 @@
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
+    },
+    "notification": {
+      "androidDisplayInForeground": true
     }
   }
 }

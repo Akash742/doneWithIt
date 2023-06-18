@@ -1,4 +1,5 @@
 //import { StatusBar } from "expo-status-bar";
+import * as ImagePicker from "expo-image-picker";
 import {
   StyleSheet,
   Dimensions,
@@ -16,133 +17,162 @@ import {
   TextInput,
   Switch,
 } from "react-native";
-import { useDeviceOrientation } from "@react-native-community/hooks";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import ViewImageScreen from "./app/screens/ViewImageScreen";
-import AppText from "./app/components/AppText";
+import { useEffect, useState } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AppButton from "./app/components/AppButton";
-import Card from "./app/components/Card";
-import ListingDetailsScreen from "./app/screens/ListingDetailsScreen";
-import MessageScreen from "./app/screens/MessageScreen";
+import NetInfo from "@react-native-community/netinfo";
+import AppLoading from "expo-app-loading";
+
+
 import Screen from "./app/components/Screen";
-import Icon from "./app/components/Icon";
-import AccountScreen from "./app/screens/AccountScreen";
-import ListingScreen from "./app/screens/ListingScreen";
-import { useState } from "react";
-import AppTextInput from "./app/components/AppTextInput";
-import AppPicker from "./app/components/AppPicker";
-import LoginScreen from "./app/screens/LoginScreen";
-import ListEditingScreen from "./app/screens/ListEditingScreen";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import navigationTheme from "./app/navigation/navigationTheme";
+import AppNavigator from "./app/navigation/AppNavigator";
+import AuthContext from "./app/auth/context";
+import OfflineNotice from "./app/components/OfflineNotice";
+import authStorage from "./app/auth/storage";
+import { navigationRef } from "./app/navigation/rootNavigation";
 
-export default function App() {
-  /*const handleOnPress = () => {
-    console.log("Text Pressed!")
-  }*/
-  const { landscape } = useDeviceOrientation();
 
-  const [textInput, setTextInput] = useState("");
-
-  const [isNew, setIsNew] = useState(false);
-
-  const categories = [
-    { label: "Furniture", value: 1 },
-    { label: "Clothing", value: 2 },
-    { label: "Camera", value: 3 },
-  ];
-
-  const [category, setCategory] = useState(categories[0]);
+const Link = () => {
+  const navigation = useNavigation();
 
   return (
-    <Screen>
-      <ListEditingScreen />
-    </Screen>
+    <Button
+      title="Click"
+      onPress={() => navigation.navigate("TweetDetails", { id: 1 })}
+    />
+  );
+};
+
+const Tweets = ({ navigation }) => (
+  <Screen>
+    <Text>Tweets</Text>
+    <Link />
+  </Screen>
+);
+
+const TweetDetails = ({ route }) => (
+  <Screen>
+    <Text>TweetDetails {route.params.id}</Text>
+  </Screen>
+);
+
+const Account = () => (
+  <Screen>
+    <Text>Account</Text>
+  </Screen>
+);
+const Stack = createStackNavigator();
+const StackNavigator = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: "tomato" },
+      headerTintColor: "white",
+    }}
+  >
+    <Stack.Screen name="Tweets" component={Tweets} />
+    <Stack.Screen
+      name="TweetDetails"
+      component={TweetDetails}
+      options={({ route }) => ({ title: route.params.id })}
+    />
+  </Stack.Navigator>
+);
+
+const Tab = createBottomTabNavigator();
+
+const TabNavigator = () => (
+  <Tab.Navigator
+    tabBarOptions={{
+      activeBackgroundColor: "tomato",
+      activeTintColor: "white",
+      inactiveBackgroundColor: "#eee",
+      inactiveTintColor: "black",
+    }}
+  >
+    <Tab.Screen
+      name="Feed"
+      component={StackNavigator}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons name="home" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen name="Account" component={Account} />
+  </Tab.Navigator>
+);
+export default function App() {
+  NetInfo.addEventListener((netInfo) => console.log(netInfo));
+
+  const demo = async () => {
+    try {
+      await AsyncStorage.setItem("person", JSON.stringify({ id: 1 }));
+      const value = await AsyncStorage.getItem("person");
+      const person = JSON.parse(value);
+      console.log(person);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  demo();
+
+  const [user, setUser] = useState();
+  const [isReady, setIsReady] = useState(false);
+
+const restoreUser = async() => {
+  const user = await authStorage.getUser();
+  if(user) return setUser(user);
+};
+
+useEffect(() => {
+  restoreUser()
+}, []);
+
+/*if(!isReady)
+return (<AppLoading startAsync={this.restoreToken} onFinish={() => this.setIsReady(true)}/>)*/
+
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      <OfflineNotice />
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+        { user ? <AppNavigator/> : <AuthNavigator /> }
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
-/*const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffff",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-});*/
 
-/*{
+/*
 
-  <View style={{
-        backgroundColor: 'dodgerblue',
-        width: 100,
-        height: 100,
-        /*{
-          borderWidth: 10,
-          borderRadius: 10,
-          borderTopWidth: 20,
-          borderTopLeftRadius: 40,
-          borderBottomRightRadius: 40,
-          borderColor: 'royalblue' }*/
-
-/*---{
-          shadowOffset: { width: 10, height: 10},
-          shadowOpacity: 1,
-          shadowRadius: 10,   // IOS
-          elevation: 20  //Android  } --//
-          padding: 20,  //inside the
-          paddingHorizontal: 10,
-          paddingLeft: 30
-        }}>
-          <View style={{
-            backgroundColor: "gold",
-            width: 50,
-            height: 50,
-          }}></View>
-      </View>
-      <View style={{
-        backgroundColor: 'tomato',
-        width: 100,
-        height: 100,
-        
-          padding: 20,
-          paddingHorizontal: 10,
-          paddingLeft: 30,
-          margin: 20 // outside the container
-        }}>
-      </View>
+          /*const requestPermission = async() => {
+            const { granted } = await ImagePicker.requestCameraPermissionsAsync();
+            if(! granted) alert('You need to enable the permission to access the library.')
+          }
+          
+          useEffect(() => {
+            requestPermission()
+          }, [])
+          
+          const selectedImage = async () => {
+            try {
+              const result = await ImagePicker.launchImageLibraryAsync();
+              if(!result.canceled) setImageUri(result.assets[0].uri);
+            } catch (error) {
+              console.log("Error reading an image", error)
+            }
+          }
 
 
 
-
-
-      <Text style={{
-        frontSize: 30,
-        //fontFamily: 'Roboto',
-        fontStyle: 'italic',
-        fontWeight: '600',
-        color: 'gold',
-        textTransform: 'capitalize',
-        //textDecorationLine: 'line-through',
-        textAlign: "justify",
-        lineHeight: 30
-      }}>
-        I love React-Native!! 
-        This is my first project. 
-        Here I am Akash Dey.
-      </Text>
-
-
-
-       <View
-      style={{
-        backgroundColor: "#f8f4f4",
-        padding: 20,
-        paddingTop: 100,
-      }}
-    >
-      <Card
-        title={"Red Jacket for sale"}
-        subTitle={"$100"}
-        image={require("./app/assets/jacket.jpg")}
-      />
-    </View>
-
-
-}*/
+          <Screen>
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
+    </Screen>
+          
+        }*/

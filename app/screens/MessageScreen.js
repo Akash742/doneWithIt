@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import Constants from "expo-constants";
 
@@ -6,6 +6,11 @@ import ListItem from "../components/lists/ListItem";
 import Screen from "../components/Screen";
 import ListItemSeperator from "../components/lists/ListItemSeperator";
 import ListItemDeleteAction from "../components/lists/ListItemDeleteAction";
+/*import useApi from "../hooks/useApi";
+import messagesApi from "../api/messages";
+import useAuth from "../auth/useAuth";
+import authApi from "../api/auth";
+import storage from "../auth/storage";*/
 
 const initialMessages = [
   {
@@ -49,7 +54,7 @@ function MessageScreen(props) {
     <Screen>
       <FlatList
         data={messages}
-        keyExtractor={(messages) => messages.id.toString()}
+        keyExtractor={(message) => message.id.toString()}
         renderItem={({ item }) => (
           <ListItem
             title={item.title}
