@@ -107,7 +107,7 @@ const TabNavigator = () => (
   </Tab.Navigator>
 );
 export default function App() {
-  NetInfo.addEventListener((netInfo) => console.log(netInfo));
+  //NetInfo.addEventListener((netInfo) => console.log(netInfo));
 
   const demo = async () => {
     try {

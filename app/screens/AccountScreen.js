@@ -7,6 +7,7 @@ import ListItemSeperator from "../components/lists/ListItemSeperator";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import useAuth from "../auth/useAuth";
+import routes from "../navigation/routes";
 
 const menuItems = [
   {
@@ -30,6 +31,10 @@ const menuItems = [
 function AccountScreen({navigation}) {
   const {user, logOut} = useAuth();
 
+  const handleUser = (user) => {
+    navigation.navigate(routes.USER, { user });
+  }
+  
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
@@ -37,6 +42,7 @@ function AccountScreen({navigation}) {
           title={user.name}
           subTitle={user.email}
           image={require("../assets/Akash.jpg")}
+          onPress={() => handleUser(user)}
         />
       </View>
       <View style={styles.container}>

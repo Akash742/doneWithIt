@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.18.1",
+    "@react-native-async-storage/async-storage": "1.17.11",
     "@react-native-community/hooks": "^3.0.0",
     "@react-native-community/netinfo": "9.3.7",
     "@react-navigation/bottom-tabs": "^5.11.15",
@@ -19,7 +19,7 @@
     "apisauce": "^3.0.0",
     "expo": "^48.0.0",
     "expo-app-loading": "^2.1.1",
-    "expo-blur": "^12.2.2",
+    "expo-blur": "~12.2.2",
     "expo-constants": "^14.0.2",
     "expo-image-picker": "~14.1.1",
     "expo-location": "~15.1.1",
@@ -31,7 +31,7 @@
     "lottie-react-native": "5.1.4",
     "moment": "^2.29.4",
     "react": "18.2.0",
-    "react-native": "0.71.3",
+    "react-native": "0.71.8",
     "react-native-expo-image-cache": "^4.1.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-progress": "^5.0.0",

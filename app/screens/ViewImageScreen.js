@@ -1,26 +1,14 @@
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
-import listings from "../api/listings";
 
-function ViewImageScreen({ navigation, route }) {
+function ViewImageScreen({ route }) {
   const { imageUrl } = route.params;
+  console.log(route)
 
   return (
     <View style={styles.container}>
-      <View style={styles.closeButton}>
-        <MaterialCommunityIcons name="close" size={35} color="white" />
-      </View>
-
-      <View style={styles.deleteButton}>
-        <MaterialCommunityIcons
-          name="trash-can-outline"
-          size={35}
-          color="white"
-        />
-      </View>
       <Image
         resizeMode="contain"
         style={styles.image}

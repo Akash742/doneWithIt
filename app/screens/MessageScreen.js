@@ -6,13 +6,14 @@ import ListItem from "../components/lists/ListItem";
 import Screen from "../components/Screen";
 import ListItemSeperator from "../components/lists/ListItemSeperator";
 import ListItemDeleteAction from "../components/lists/ListItemDeleteAction";
-/*import useApi from "../hooks/useApi";
+import useApi from "../hooks/useApi";
 import messagesApi from "../api/messages";
 import useAuth from "../auth/useAuth";
 import authApi from "../api/auth";
-import storage from "../auth/storage";*/
+import storage from "../auth/storage";
+import routes from "../navigation/routes";
 
-const initialMessages = [
+/*const initialMessages = [
   {
     id: 1,
     title: "T1",
@@ -37,11 +38,16 @@ const initialMessages = [
     description: "D4",
     image: require("../assets/Akash.jpg"),
   },
-];
-function MessageScreen(props) {
-  const [messages, setMessages] = useState(initialMessages);
-  const [refreshing, setRefreshing] = useState(false);
+];*/
+function MessageScreen({navigation}) {
+  /*const [messages, setMessages] = useState(initialMessages);
+  const [refreshing, setRefreshing] = useState(false);*/
 
+  const getMessagesApi = useApi(messagesApi.getMessage)
+
+  useEffect(() => {
+    getMessagesApi.request();
+  }, [])
   /*const handleDelete = (message) => {
    const newMessages = messages.filter( m => m.id !== message.id)
    setMessages(newMessages)
@@ -53,24 +59,24 @@ function MessageScreen(props) {
   return (
     <Screen>
       <FlatList
-        data={messages}
-        keyExtractor={(message) => message.id.toString()}
+        data={getMessagesApi.data}
+        keyExtractor={(messages) => messages.id } 
         renderItem={({ item }) => (
           <ListItem
-            title={item.title}
-            subTitle={item.description}
-            image={item.image}
-            onPress={() => console.log("Messages:", item)}
+            title={item.fromUser.name}
+            subTitle={item.content}
+            //image={item.image}
+           // onPress={() => navigation.navigate(routes.MESSAGE_DETAILS, item)}
             renderRightActions={() => (
               <ListItemDeleteAction onPress={() => handleDelete(item)} />
             )}
           />
         )}
         ItemSeparatorComponent={ListItemSeperator}
-        refreshing={refreshing}
+        /*refreshing={refreshing}
         onRefresh={() => {
           setMessages(initialMessages);
-        }}
+        }}*/
       />
     </Screen>
   );
