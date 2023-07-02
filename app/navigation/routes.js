@@ -4,4 +4,5 @@ export default Object.freeze({
     LISTING_SCREEN: 'ListingScreen',
     MESSAGE_DETAILS: 'MessageDetails',
     USER: 'UserProfile',
+    PROFILE_PIC: 'ProfilePic',
 })
