@@ -39,11 +39,11 @@ import routes from "../navigation/routes";
     image: require("../assets/Akash.jpg"),
   },
 ];*/
-function MessageScreen({navigation}) {
+function MessageScreen({routes}) {
   /*const [messages, setMessages] = useState(initialMessages);
   const [refreshing, setRefreshing] = useState(false);*/
 
-  const getMessagesApi = useApi(messagesApi.getMessage)
+  const getMessagesApi = useApi(messagesApi.getMessage);
 
   useEffect(() => {
     getMessagesApi.request();
@@ -57,10 +57,10 @@ function MessageScreen({navigation}) {
     setMessages(messages.filter((m) => m.id !== message.id)); // Done by Me..
   }
   return (
-    <Screen>
+    <Screen style={styles.msgContainer}>
       <FlatList
         data={getMessagesApi.data}
-        keyExtractor={(messages) => messages.id } 
+        keyExtractor={(messages) => messages.id.toString() } 
         renderItem={({ item }) => (
           <ListItem
             title={item.fromUser.name}
@@ -83,9 +83,9 @@ function MessageScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  /*msgContainer: {
+  msgContainer: {
         paddingTop: Constants.statusBarHeight
-    }*/
+    }
 });
 
 export default MessageScreen;

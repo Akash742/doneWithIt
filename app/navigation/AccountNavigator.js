@@ -11,7 +11,7 @@ const AccountNavigator = () => (
     <>
         <Stack.Navigator mode='modal' screenOptions={{headerShown: false}}>
             <Stack.Screen name='Account' component={AccountScreen}/>
-            <Stack.Screen name='Messages' component={MessageScreen}/>
+            <Stack.Screen name='MessageDetails' component={MessageScreen}/>
             <Stack.Screen name='UserProfile' component={UserProfileScreen}/>
             <Stack.Screen name='ProfilePic' component={ProfilePicScreen}/>
         </Stack.Navigator>
